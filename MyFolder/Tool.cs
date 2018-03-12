@@ -35,6 +35,12 @@ namespace MyFolder
 
         private void btn_Filter_Click(object sender, EventArgs e)
         {
+            if (!CheckFolderChoose())
+            {
+                MessageBox.Show("老哥，能先选择一下根文件夹么");
+                return;
+            }
+
             string logFileName = "GetNullFolder" + DateTime.Now.ToString("yyyyMMddhhmmss");
             List<string> pathList = GetNullFolderPath();
             foreach (var item in pathList)
@@ -47,6 +53,11 @@ namespace MyFolder
 
         private void btn_Delete_Click(object sender, EventArgs e)
         {
+            if (!CheckFolderChoose())
+            {
+                MessageBox.Show("老哥，能先选择一下根文件夹么");
+                return;
+            }
             string logFileName = "DeleteNullFolder" + DateTime.Now.ToString("yyyyMMddhhmmss");
             List<string> pathList = GetNullFolderPath();
             foreach (var item in pathList)
@@ -63,6 +74,11 @@ namespace MyFolder
 
         private void btn_DeleteAll_Click(object sender, EventArgs e)
         {
+            if (!CheckFolderChoose())
+            {
+                MessageBox.Show("老哥，能先选择一下根文件夹么");
+                return;
+            }
             string logFileName = "DeleteNullFolder" + DateTime.Now.ToString("yyyyMMddhhmmss");
             int totalDeleteCount = 0;
             List<string> pathList = GetNullFolderPath();
@@ -86,17 +102,19 @@ namespace MyFolder
         }
 
 
-
+        private bool CheckFolderChoose()
+        {
+            string rootPath = txt_path.Text;
+            if (!Directory.Exists(rootPath))
+            {               
+                return false;
+            }
+            return true;
+        }
         private List<string> GetNullFolderPath()
         {
             List<string> pathList = new List<string>();
-
-            string rootPath = txt_path.Text;
-            if (!Directory.Exists(rootPath))
-            {
-                MessageBox.Show("老哥，能先选择一下根文件夹么");
-                return pathList;
-            }
+            string rootPath = txt_path.Text;           
             LoopGetNullFolderPath(ref  pathList, rootPath);
             return pathList;
         }
